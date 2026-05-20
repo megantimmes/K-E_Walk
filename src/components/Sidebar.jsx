@@ -5,7 +5,6 @@ const NAV_ITEMS = [
   { id: 'map',    icon: '🗺',  label: 'Map' },
   { id: 'stops',  icon: '📍',  label: 'Stops' },
   { id: 'pack',   icon: '🎒',  label: 'Pack' },
-  { id: 'guides', icon: '📖',  label: 'Guides' },
   { id: 'budget', icon: '💰',  label: 'Budget' },
   { id: 'photos', icon: '📷',  label: 'Photos' },
 ]

@@ -3,12 +3,12 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBmk5GUQ39huo5VJxF4a8c3iBnSKyRDw_c",
-  authDomain: "k-e-walk.firebaseapp.com",
-  projectId: "k-e-walk",
-  storageBucket: "k-e-walk.firebasestorage.app",
-  messagingSenderId: "376724391037",
-  appId: "1:376724391037:web:b1d1c31be51d13471f5d14",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
 const app = initializeApp(firebaseConfig)

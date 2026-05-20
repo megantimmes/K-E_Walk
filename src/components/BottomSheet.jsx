@@ -1,11 +1,9 @@
 import { CATEGORY_COLORS } from '../data/stops'
-import { GUIDES } from '../data/guides'
 
 export function BottomSheet({ stop, stopState, onClose, onMarkDone, onSkip }) {
   if (!stop) return null
 
   const cat = CATEGORY_COLORS[stop.category] ?? CATEGORY_COLORS.landmark
-  const relatedGuides = GUIDES.filter((g) => g.stops.includes(stop.id))
   const isDone = stopState?.arrived || stopState?.skipped
 
   return (
@@ -40,26 +38,6 @@ export function BottomSheet({ stop, stopState, onClose, onMarkDone, onSkip }) {
           </div>
 
           <p className="text-gray-600 text-sm leading-relaxed mb-5">{stop.description}</p>
-
-          {/* Related guides */}
-          {relatedGuides.length > 0 && (
-            <div className="mb-5">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">From the guides</h3>
-              <div className="flex flex-wrap gap-2">
-                {relatedGuides.map((g) => (
-                  <a
-                    key={g.id}
-                    href={g.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-medium px-3 py-1.5 rounded-full border border-blue-200 text-blue-700 bg-blue-50 active:bg-blue-100"
-                  >
-                    {g.name} ↗
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
 
           {/* Actions */}
           {!isDone && (

@@ -2,7 +2,6 @@ const TABS = [
   { id: 'map',    label: 'Map',    icon: MapIcon },
   { id: 'stops',  label: 'Stops',  icon: StopsIcon },
   { id: 'pack',   label: 'Pack',   icon: PackIcon },
-  { id: 'guides', label: 'Guides', icon: GuidesIcon },
 ]
 
 function MapIcon({ active }) {
@@ -30,15 +29,6 @@ function PackIcon({ active }) {
       <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
       <line x1="3" y1="6" x2="21" y2="6" />
       <path d="M16 10a4 4 0 01-8 0" />
-    </svg>
-  )
-}
-
-function GuidesIcon({ active }) {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#1B3A5C' : '#94A3B8'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
-      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
     </svg>
   )
 }

@@ -12,10 +12,9 @@ import { SignInScreen } from './screens/SignInScreen'
 import { MapScreen } from './screens/MapScreen'
 import { StopsScreen } from './screens/StopsScreen'
 import { PackingScreen } from './screens/PackingScreen'
-import { GuidesScreen } from './screens/GuidesScreen'
 import { BudgetScreen } from './screens/BudgetScreen'
 
-const MAIN_TABS = ['map', 'stops', 'pack', 'guides']
+const MAIN_TABS = ['map', 'stops', 'pack']
 const ALL_TABS = [...MAIN_TABS, 'budget', 'photos']
 
 export default function App() {
@@ -125,8 +124,6 @@ export default function App() {
         return <StopsScreen walkState={walkState} position={position} />
       case 'pack':
         return <PackingScreen walkState={walkState} onStartWalk={handleStartWalk} />
-      case 'guides':
-        return <GuidesScreen />
       case 'budget':
         return <BudgetScreen walkState={walkState} />
       case 'photos':
