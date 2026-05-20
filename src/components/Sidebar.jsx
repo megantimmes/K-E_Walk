@@ -2,11 +2,11 @@ import { signOut } from 'firebase/auth'
 import { auth } from '../lib/firebase'
 
 const NAV_ITEMS = [
-  { id: 'map',    icon: '🗺',  label: 'Map' },
-  { id: 'stops',  icon: '📍',  label: 'Stops' },
-  { id: 'pack',   icon: '🎒',  label: 'Pack' },
-  { id: 'budget', icon: '💰',  label: 'Budget' },
-  { id: 'photos', icon: '📷',  label: 'Photos' },
+  { id: 'map', label: 'Map' },
+  { id: 'stops', label: 'Stops' },
+  { id: 'pack',  label: 'Pack' },
+  { id: 'budget', label: 'Budget' },
+  { id: 'photos', label: 'Photos' },
 ]
 
 function getInitials(name) {
@@ -61,13 +61,12 @@ export function Sidebar({ open, onClose, user, activeTab, onTabChange }) {
 
         {/* Nav items */}
         <div className="flex-1 overflow-y-auto py-4">
-          {NAV_ITEMS.map(({ id, icon, label }) => (
+          {NAV_ITEMS.map(({ id, label }) => (
             <button
               key={id}
               onClick={() => handleNav(id)}
               className={`w-full flex items-center gap-4 px-6 py-3.5 text-left transition-colors active:bg-gray-50 ${activeTab === id ? 'bg-blue-50' : ''}`}
             >
-              <span className="text-xl w-7 text-center">{icon}</span>
               <span
                 className="font-medium text-sm"
                 style={{ color: activeTab === id ? '#1B3A5C' : '#374151' }}
