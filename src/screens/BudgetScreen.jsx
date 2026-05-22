@@ -50,16 +50,6 @@ export function BudgetScreen({ walkState }) {
             <span>{pct.toFixed(0)}% used</span>
             <span className="font-semibold" style={{ color: barColor }}>{fmt(remaining)} left</span>
           </div>
-          <div className="grid grid-cols-2 gap-3 mt-4">
-            <div className="bg-gray-50 rounded-xl p-3 text-center">
-              <p className="text-xs text-gray-400 mb-1">Karalyn's share</p>
-              <p className="font-bold text-gray-900">{fmt(Math.round(totalSpentCents / 2))}</p>
-            </div>
-            <div className="bg-gray-50 rounded-xl p-3 text-center">
-              <p className="text-xs text-gray-400 mb-1">Evan's share</p>
-              <p className="font-bold text-gray-900">{fmt(Math.round(totalSpentCents / 2))}</p>
-            </div>
-          </div>
         </div>
 
         {/* Add expense */}
@@ -74,12 +64,11 @@ export function BudgetScreen({ walkState }) {
               className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-blue-400"
             />
             <input
-              type="number"
+              type="text"
+              inputMode="decimal"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="$0.00"
-              min="0"
-              step="0.01"
               className="w-24 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-blue-400"
             />
           </div>
