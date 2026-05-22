@@ -165,12 +165,13 @@ export function MapScreen({ walkState, position, onTabChange }) {
     : null
 
   // Omakase warning: 5pm or >3 stops from stop 22
+  const [omakaseDismissed, setOmakaseDismissed] = useState(false)
   const now = new Date()
   const isAfter5pm = now.getHours() >= 17
   const omakaseIndex = STOPS.findIndex((s) => s.id === OMAKASE_STOP_ID)
   const currentIndex = nextStop ? STOPS.findIndex((s) => s.id === nextStop.id) : 0
   const stopsFromOmakase = omakaseIndex - currentIndex
-  const showOmakaseWarning = walkActive && !completedStopIds.has(OMAKASE_STOP_ID) && (isAfter5pm || stopsFromOmakase > 3)
+  const showOmakaseWarning = walkActive && !omakaseDismissed && !completedStopIds.has(OMAKASE_STOP_ID) && (isAfter5pm || stopsFromOmakase > 3)
 
   const totalSpentDollars = (walkState.totalSpentCents / 100).toFixed(2)
 
@@ -195,7 +196,16 @@ export function MapScreen({ walkState, position, onTabChange }) {
           style={{ background: '#FEF3C7', border: '1px solid #F59E0B' }}
         >
           <span className="text-amber-600 text-lg">⚠️</span>
-          <p className="text-amber-800 text-sm font-semibold">Omakase at 6pm — keep moving!</p>
+          <p className="text-amber-800 text-sm font-semibold flex-1">Omakase at 6pm — keep moving!</p>
+          <button
+            onClick={() => setOmakaseDismissed(true)}
+            className="text-amber-600 hover:text-amber-800 p-1 -mr-1 rounded-lg active:bg-amber-100"
+            aria-label="Dismiss"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+            </svg>
+          </button>
         </div>
       )}
 

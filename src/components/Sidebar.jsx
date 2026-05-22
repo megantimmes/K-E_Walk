@@ -6,7 +6,6 @@ const NAV_ITEMS = [
   { id: 'stops', label: 'Stops' },
   { id: 'pack',  label: 'Pack' },
   { id: 'budget', label: 'Budget' },
-  { id: 'photos', label: 'Photos' },
 ]
 
 function getInitials(name) {

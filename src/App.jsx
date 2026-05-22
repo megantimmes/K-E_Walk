@@ -15,7 +15,7 @@ import { PackingScreen } from './screens/PackingScreen'
 import { BudgetScreen } from './screens/BudgetScreen'
 
 const MAIN_TABS = ['map', 'stops', 'pack']
-const ALL_TABS = [...MAIN_TABS, 'budget', 'photos']
+const ALL_TABS = [...MAIN_TABS, 'budget']
 
 export default function App() {
   const [user, setUser] = useState(undefined) // undefined = loading
@@ -55,20 +55,8 @@ export default function App() {
   }, [])
 
   const handleStartWalk = useCallback(async () => {
-    if (!navigator.geolocation) {
-      alert('Geolocation is not supported by your browser.')
-      return
-    }
-    navigator.geolocation.getCurrentPosition(
-      async () => {
-        await walkState.startWalk()
-        setActiveTab('map')
-      },
-      () => {
-        alert('Location permission is required to start the walk.')
-      },
-      { enableHighAccuracy: true }
-    )
+    await walkState.startWalk()
+    setActiveTab('map')
   }, [walkState])
 
   // Loading state
@@ -126,9 +114,7 @@ export default function App() {
         return <PackingScreen walkState={walkState} onStartWalk={handleStartWalk} />
       case 'budget':
         return <BudgetScreen walkState={walkState} />
-      case 'photos':
-        return <PhotosPlaceholder />
-      default:
+default:
         return <PackingScreen walkState={walkState} onStartWalk={handleStartWalk} />
     }
   }
@@ -184,14 +170,3 @@ export default function App() {
   )
 }
 
-function PhotosPlaceholder() {
-  return (
-    <div className="flex flex-col h-full items-center justify-center px-8 text-center" style={{ background: '#FAFAF8' }}>
-      <div className="text-5xl mb-4">📷</div>
-      <h2 className="font-display text-2xl font-bold mb-2" style={{ color: '#1B3A5C' }}>Photos</h2>
-      <p className="text-gray-500 text-sm leading-relaxed">
-        Use your camera roll or Google Photos to capture the day. Memories live offline — no upload needed.
-      </p>
-    </div>
-  )
-}

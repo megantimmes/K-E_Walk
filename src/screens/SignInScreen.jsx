@@ -55,7 +55,7 @@ export function SignInScreen() {
       </h1>
 
       <p className="text-gray-500 text-center text-sm leading-relaxed mb-12 max-w-xs">
-        Inwood Hill Park to Battery Park — all 16 miles, together.
+        Inwood Hill Park to Battery Park
       </p>
 
       <button
@@ -80,7 +80,7 @@ export function SignInScreen() {
       )}
 
       <p className="text-gray-400 text-xs text-center mt-8 max-w-xs leading-relaxed">
-        Sign in with Karalyn's or Evan's Google account. Progress syncs in real time.
+        Sign in with your google account. 
       </p>
     </div>
   )

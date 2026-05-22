@@ -77,8 +77,12 @@ export function useWalkState() {
 
   const restartWalk = useCallback(async () => {
     const stopsRef = collection(db, 'walks', WALK_ID, 'stops')
-    const snap = await getDocs(stopsRef)
-    await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)))
+    const checklistRef = collection(db, 'walks', WALK_ID, 'checklist')
+    const [stopsSnap, checklistSnap] = await Promise.all([getDocs(stopsRef), getDocs(checklistRef)])
+    await Promise.all([
+      ...stopsSnap.docs.map((d) => deleteDoc(d.ref)),
+      ...checklistSnap.docs.map((d) => deleteDoc(d.ref)),
+    ])
     await setDoc(doc(db, 'walks', WALK_ID), {
       walkStartedAt: null,
       walkEndedAt: null,
