@@ -14,7 +14,7 @@ function getInitials(name) {
   return name.split(' ').map((w) => w[0]).join('').toUpperCase().slice(0, 2)
 }
 
-export function Sidebar({ open, onClose, user, activeTab, onTabChange }) {
+export function Sidebar({ open, onClose, user, activeTab, onTabChange, onRestartWalk }) {
   if (!open) return null
 
   const handleNav = (id) => {
@@ -24,6 +24,12 @@ export function Sidebar({ open, onClose, user, activeTab, onTabChange }) {
 
   const handleSignOut = async () => {
     await signOut(auth)
+    onClose()
+  }
+
+  const handleRestart = async () => {
+    if (!window.confirm('Reset all walk progress? This cannot be undone.')) return
+    await onRestartWalk()
     onClose()
   }
 
@@ -81,7 +87,14 @@ export function Sidebar({ open, onClose, user, activeTab, onTabChange }) {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-100 px-6 py-4">
+        <div className="border-t border-gray-100 px-6 py-4 flex flex-col gap-1">
+          <button
+            onClick={handleRestart}
+            className="w-full flex items-center gap-3 py-2 text-gray-500 text-sm active:text-red-500"
+          >
+            <span>↺</span>
+            <span>Restart walk</span>
+          </button>
           <button
             onClick={handleSignOut}
             className="w-full flex items-center gap-3 py-2 text-gray-500 text-sm active:text-red-500"

@@ -24,7 +24,7 @@ export default function App() {
 
   const walkState = useWalkState()
   const walkActive = !!walkState.walkDoc?.walkStartedAt
-  const { position } = useGeolocation(walkActive)
+  const { position } = useGeolocation(true)
 
   // Auth listener
   useEffect(() => {
@@ -178,6 +178,7 @@ export default function App() {
         user={user}
         activeTab={activeTab}
         onTabChange={(tab) => { setActiveTab(tab); setSidebarOpen(false) }}
+        onRestartWalk={walkState.restartWalk}
       />
     </div>
   )

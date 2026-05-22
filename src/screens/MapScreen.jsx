@@ -53,6 +53,7 @@ export function MapScreen({ walkState, position, onTabChange }) {
   const [selectedStop, setSelectedStop] = useState(null)
   const [toast, setToast] = useState(null)
   const [gpxLoaded, setGpxLoaded] = useState(false)
+  const [mapReady, setMapReady] = useState(false)
 
   const { walkDoc, stopStates, completedStopIds, nextStop, markStopArrived, undoStopArrival, skipStop } = walkState
   const walkActive = !!walkDoc?.walkStartedAt
@@ -71,6 +72,7 @@ export function MapScreen({ walkState, position, onTabChange }) {
     L.tileLayer(CARTO_TILE, { attribution: CARTO_ATTR, maxZoom: 19 }).addTo(map)
     L.control.attribution({ position: 'bottomright', prefix: false }).addTo(map)
     mapInstanceRef.current = map
+    setMapReady(true)
 
     // Load GPX route
     fetch('/route.gpx')
@@ -96,6 +98,9 @@ export function MapScreen({ walkState, position, onTabChange }) {
     return () => {
       map.remove()
       mapInstanceRef.current = null
+      markersRef.current = {}
+      gpsMarkerRef.current = null
+      setMapReady(false)
     }
   }, [])
 
@@ -120,7 +125,7 @@ export function MapScreen({ walkState, position, onTabChange }) {
         markersRef.current[stop.id] = marker
       }
     })
-  }, [stopStates, nextStop])
+  }, [stopStates, nextStop, mapReady])
 
   // Update GPS marker
   useEffect(() => {
