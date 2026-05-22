@@ -45,7 +45,7 @@ function createGpsIcon() {
   })
 }
 
-export function MapScreen({ walkState, position, onTabChange }) {
+export function MapScreen({ walkState, position, onTabChange, onStartWalk }) {
   const mapRef = useRef(null)
   const mapInstanceRef = useRef(null)
   const markersRef = useRef({})
@@ -209,8 +209,24 @@ export function MapScreen({ walkState, position, onTabChange }) {
         </div>
       )}
 
+      {/* Start walk button (pre-walk) */}
+      {!walkActive && (
+        <div className="absolute z-10 left-4 right-4" style={{ bottom: '120px' }}>
+          <button
+            onClick={onStartWalk}
+            className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-semibold text-white text-base shadow-lg active:opacity-90 active:scale-[0.98] transition-all"
+            style={{ background: '#1B3A5C' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+              <polygon points="5,3 19,12 5,21" />
+            </svg>
+            Start walk
+          </button>
+        </div>
+      )}
+
       {/* Next stop strip */}
-      {nextStop && (
+      {walkActive && nextStop && (
         <div
           className="absolute z-10 left-4 right-4 bg-white rounded-xl shadow-lg px-4 py-3 flex items-center gap-3"
           style={{ bottom: '160px' }}
@@ -242,24 +258,26 @@ export function MapScreen({ walkState, position, onTabChange }) {
       )}
 
       {/* Stats bar */}
-      <div
-        className="absolute z-10 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex items-center gap-2"
-        style={{ bottom: '112px' }}
-      >
-        {[
-          { label: `${arrivedCount} stops done` },
-          { label: elapsedStr },
-          { label: `$${totalSpentDollars} spent` },
-        ].map((chip, i) => (
-          <div
-            key={i}
-            className="flex-1 text-center py-1.5 rounded-lg text-xs font-semibold text-gray-700"
-            style={{ background: '#F1F5F9' }}
-          >
-            {chip.label}
-          </div>
-        ))}
-      </div>
+      {walkActive && (
+        <div
+          className="absolute z-10 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex items-center gap-2"
+          style={{ bottom: '112px' }}
+        >
+          {[
+            { label: `${arrivedCount} stops done` },
+            { label: elapsedStr },
+            { label: `$${totalSpentDollars} spent` },
+          ].map((chip, i) => (
+            <div
+              key={i}
+              className="flex-1 text-center py-1.5 rounded-lg text-xs font-semibold text-gray-700"
+              style={{ background: '#F1F5F9' }}
+            >
+              {chip.label}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Arrival toast */}
       {toast && (

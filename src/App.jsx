@@ -107,7 +107,7 @@ export default function App() {
   const renderScreen = () => {
     switch (activeTab) {
       case 'map':
-        return <MapScreen walkState={walkState} position={position} onTabChange={setActiveTab} />
+        return <MapScreen walkState={walkState} position={position} onTabChange={setActiveTab} onStartWalk={handleStartWalk} />
       case 'stops':
         return <StopsScreen walkState={walkState} position={position} />
       case 'pack':
