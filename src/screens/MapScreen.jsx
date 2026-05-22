@@ -54,6 +54,7 @@ export function MapScreen({ walkState, position, onTabChange, onStartWalk }) {
   const [toast, setToast] = useState(null)
   const [gpxLoaded, setGpxLoaded] = useState(false)
   const [mapReady, setMapReady] = useState(false)
+  const [panelOpen, setPanelOpen] = useState(true)
 
   const { walkDoc, stopStates, completedStopIds, nextStop, markStopArrived, undoStopArrival, skipStop } = walkState
   const walkActive = !!walkDoc?.walkStartedAt
@@ -209,75 +210,78 @@ export function MapScreen({ walkState, position, onTabChange, onStartWalk }) {
         </div>
       )}
 
-      {/* Start walk button (pre-walk) */}
-      {!walkActive && (
-        <div className="absolute z-10 left-4 right-4" style={{ bottom: '120px' }}>
-          <button
-            onClick={onStartWalk}
-            className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-semibold text-white text-base shadow-lg active:opacity-90 active:scale-[0.98] transition-all"
-            style={{ background: '#1B3A5C' }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-              <polygon points="5,3 19,12 5,21" />
-            </svg>
-            Start walk
-          </button>
-        </div>
-      )}
-
-      {/* Next stop strip */}
-      {walkActive && nextStop && (
-        <div
-          className="absolute z-10 left-4 right-4 bg-white rounded-xl shadow-lg px-4 py-3 flex items-center gap-3"
-          style={{ bottom: '160px' }}
-        >
-          <div
-            className="w-2 h-8 rounded-full flex-shrink-0"
-            style={{ background: '#1B3A5C' }}
-          />
-          <div className="flex-1 min-w-0">
-            <p className="text-xs text-gray-400 font-medium">Next stop</p>
-            <p className="text-gray-900 font-semibold text-sm truncate">{nextStop.name}</p>
-          </div>
-          {distToNext !== null && (
-            <span className="text-xs font-medium text-gray-500 flex-shrink-0">
-              {formatDistance(distToNext)}
-            </span>
-          )}
-          <button
-            onClick={() => setSelectedStop(nextStop)}
-            className="flex-shrink-0 p-1 rounded-lg"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B3A5C" strokeWidth="2">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="16"/>
-              <line x1="8" y1="12" x2="16" y2="12"/>
-            </svg>
-          </button>
-        </div>
-      )}
-
-      {/* Stats bar */}
-      {walkActive && (
-        <div
-          className="absolute z-10 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex items-center gap-2"
-          style={{ bottom: '112px' }}
-        >
-          {[
-            { label: `${arrivedCount} stops done` },
-            { label: elapsedStr },
-            { label: `$${totalSpentDollars} spent` },
-          ].map((chip, i) => (
-            <div
-              key={i}
-              className="flex-1 text-center py-1.5 rounded-lg text-xs font-semibold text-gray-700"
-              style={{ background: '#F1F5F9' }}
+      {/* Bottom panel — start button (pre-walk) or collapsible stats (walk active) */}
+      <div
+        className="absolute z-10 left-0 right-0 bg-white shadow-[0_-4px_16px_rgba(0,0,0,0.08)] rounded-t-2xl transition-transform duration-300 ease-in-out"
+        style={{
+          bottom: '56px',
+          transform: walkActive && !panelOpen
+            ? `translateY(${nextStop ? 100 : 44}px)`
+            : 'translateY(0)',
+        }}
+      >
+        {walkActive ? (
+          <>
+            {/* Toggle handle */}
+            <button
+              onClick={() => setPanelOpen(!panelOpen)}
+              className="w-full flex items-center justify-center py-2.5 active:bg-gray-50 rounded-t-2xl"
             >
-              {chip.label}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                {panelOpen
+                  ? <polyline points="18 15 12 9 6 15" />
+                  : <polyline points="6 9 12 15 18 9" />
+                }
+              </svg>
+            </button>
+
+            {/* Next stop row */}
+            {nextStop && (
+              <div className="px-4 py-3 flex items-center gap-3 border-t border-gray-100">
+                <div className="w-2 h-8 rounded-full flex-shrink-0" style={{ background: '#1B3A5C' }} />
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs text-gray-400 font-medium">Next stop</p>
+                  <p className="text-gray-900 font-semibold text-sm truncate">{nextStop.name}</p>
+                </div>
+                {distToNext !== null && (
+                  <span className="text-xs font-medium text-gray-500 flex-shrink-0">
+                    {formatDistance(distToNext)}
+                  </span>
+                )}
+                <button onClick={() => setSelectedStop(nextStop)} className="flex-shrink-0 p-1 rounded-lg">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B3A5C" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                  </svg>
+                </button>
+              </div>
+            )}
+
+            {/* Stats row */}
+            <div className="px-4 py-2 flex items-center gap-2 border-t border-gray-100">
+              {[`${arrivedCount} stops done`, elapsedStr, `$${totalSpentDollars} spent`].map((label, i) => (
+                <div key={i} className="flex-1 text-center py-1.5 rounded-lg text-xs font-semibold text-gray-700" style={{ background: '#F1F5F9' }}>
+                  {label}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          </>
+        ) : (
+          <div className="px-4 pt-4 pb-3">
+            <button
+              onClick={onStartWalk}
+              className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-semibold text-white text-base shadow-lg active:opacity-90 active:scale-[0.98] transition-all"
+              style={{ background: '#1B3A5C' }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                <polygon points="5,3 19,12 5,21" />
+              </svg>
+              Start walk
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Arrival toast */}
       {toast && (
