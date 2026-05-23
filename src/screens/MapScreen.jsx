@@ -32,16 +32,16 @@ function createStopIcon(status) {
 }
 
 function createGpsIcon() {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="12" fill="#3B82F6" fill-opacity="0.15"/>
-    <circle cx="12" cy="12" r="7" fill="#3B82F6" fill-opacity="0.3"/>
-    <circle cx="12" cy="12" r="4" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+    <circle cx="10" cy="10" r="10" fill="#3B82F6" fill-opacity="0.15"/>
+    <circle cx="10" cy="10" r="6" fill="#3B82F6" fill-opacity="0.25"/>
+    <circle cx="10" cy="10" r="4" fill="#2563EB" stroke="white" stroke-width="1.5"/>
   </svg>`
   return L.divIcon({
     html: svg,
-    className: 'stop-pin gps-pulse-ring',
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
+    className: 'stop-pin',
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
   })
 }
 

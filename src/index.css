@@ -42,17 +42,6 @@ body {
   z-index: 0;
 }
 
-/* Pulse animation for GPS dot */
-@keyframes pulse-ring {
-  0% { transform: scale(0.8); opacity: 0.8; }
-  70% { transform: scale(2); opacity: 0; }
-  100% { transform: scale(2.2); opacity: 0; }
-}
-
-.gps-pulse-ring {
-  animation: pulse-ring 2s ease-out infinite;
-}
-
 /* Tab slide transitions */
 .tab-enter {
   transform: translateX(100%);
